@@ -4,8 +4,8 @@ import ApiError from '../../../errors/ApiError';
 import { IDonationPost } from './donationPost.interface';
 import { DonationPost } from './donationPost.model';
 
-const createDonationPost = (payload: IDonationPost) => {
-  const result = DonationPost.create(payload);
+const createDonationPost = async (payload: IDonationPost) => {
+  const result = await DonationPost.create(payload);
 
   if (!result) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Donation Post creation failed');
@@ -18,19 +18,24 @@ type query = {
   category?: string;
 };
 
-const getDonationPost = (query: query) => {
+const getDonationPost = async (query: query) => {
   if (query.category) {
     const categoryRegex = new RegExp(query.category, 'i');
-    const reuslt = DonationPost.find({ category: categoryRegex });
+    const reuslt = await DonationPost.find({ category: categoryRegex });
     return reuslt;
   } else {
-    const result = DonationPost.find({});
+    const result = await DonationPost.find({});
     return result;
   }
 };
 
-const updateDonationPost = (id: string, payload: IDonationPost) => {
-  const result = DonationPost.findByIdAndUpdate(id, payload, {
+const getSinglePost = async (id: string) => {
+  const result = await DonationPost.findById(id);
+  return result;
+};
+
+const updateDonationPost = async (id: string, payload: IDonationPost) => {
+  const result = await DonationPost.findByIdAndUpdate(id, payload, {
     new: true,
   });
 
@@ -41,8 +46,8 @@ const updateDonationPost = (id: string, payload: IDonationPost) => {
   return result;
 };
 
-const deleteDonationPost = (id: string) => {
-  const result = DonationPost.findByIdAndDelete(id);
+const deleteDonationPost = async (id: string) => {
+  const result = await DonationPost.findByIdAndDelete(id);
   if (!result) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Delete donation post failed');
   }
@@ -55,4 +60,5 @@ export const DonationPostService = {
   updateDonationPost,
   deleteDonationPost,
   getDonationPost,
+  getSinglePost,
 };

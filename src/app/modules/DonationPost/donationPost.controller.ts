@@ -29,6 +29,18 @@ const getDonationPost = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSinglePost = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const result = await DonationPostService.getSinglePost(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Donation Post Retrive successfully',
+    data: result,
+  });
+});
+
 const updateDonationPost = catchAsync(async (req: Request, res: Response) => {
   const data = req.body;
   const id = req.params.id;
@@ -61,4 +73,5 @@ export const DonationPostController = {
   updateDonationPost,
   deleteDonationPost,
   getDonationPost,
+  getSinglePost,
 };
