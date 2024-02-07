@@ -4,4 +4,5 @@ export type IDonationPost = {
   category: string;
   targetAmount: number;
   raisedAmount: number;
+  image: string;
 };

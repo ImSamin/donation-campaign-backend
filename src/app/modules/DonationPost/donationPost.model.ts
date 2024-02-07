@@ -8,6 +8,7 @@ const donationPostSchema = new Schema<IDonationPost>(
     category: { type: String, required: true },
     targetAmount: { type: Number, required: true },
     raisedAmount: { type: Number, required: true },
+    image: { type: String, required: true },
   },
   {
     timestamps: true,

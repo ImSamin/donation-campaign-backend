@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
-import { DonationPostService } from './donationPost.services';
+import { DonationPostService } from './donationPost.service';
 
 const createDonationPost = catchAsync(async (req: Request, res: Response) => {
   const data = req.body;
@@ -19,7 +19,6 @@ const createDonationPost = catchAsync(async (req: Request, res: Response) => {
 
 const getDonationPost = catchAsync(async (req: Request, res: Response) => {
   const query = req.query;
-  console.log(query);
 
   const result = await DonationPostService.getDonationPost(query);
   sendResponse(res, {
