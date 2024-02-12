@@ -1,23 +1,17 @@
+import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+import { Secret } from 'jsonwebtoken';
+import config from '../../../config';
+import { jwtHelpers } from '../../../helpers/jwtHelper';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { AuthService } from './auth.service';
-import { Request, Response } from 'express';
-import config from '../../../config';
-import { jwtHelpers } from '../../../helpers/jwtHelper';
-import { Secret } from 'jsonwebtoken';
 
 const login = catchAsync(async (req: Request, res: Response) => {
   const loginData = req.body;
   const result = await AuthService.login(loginData);
-  const { refreshToken } = result;
 
-  const cookieOptions = {
-    secure: config.env === 'production',
-    httpOnly: true,
-  };
-
-  res.cookie('refreshToken', refreshToken, cookieOptions);
+  //res.cookie('refreshToken', refreshToken, cookieOptions);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

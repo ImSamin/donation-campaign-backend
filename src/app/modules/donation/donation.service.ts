@@ -1,6 +1,7 @@
 /* eslint-disable prefer-const */
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
+import { DonationPost } from '../DonationPost/donationPost.model';
 import { IDonation } from './donation.interface';
 import { Donation } from './donation.model';
 
@@ -10,6 +11,13 @@ const createDonation = async (payload: IDonation) => {
   if (!result) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Donation failed');
   }
+
+  await DonationPost.findByIdAndUpdate(
+    { _id: payload.postId },
+    {
+      $inc: { raisedAmount: payload.donateAmount },
+    },
+  );
 
   return result;
 };

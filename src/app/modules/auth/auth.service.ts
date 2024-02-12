@@ -24,6 +24,7 @@ const login = async (payload: ILoginData) => {
   }
 
   const { email, name, id, role } = isUserExist;
+  const { password, ...restUserInfo } = isUserExist.toJSON();
 
   const accessToken = jwtHelpers.createToken(
     { email, name, id, role },
@@ -37,10 +38,7 @@ const login = async (payload: ILoginData) => {
     config.jwt.refresh_expires_in as string,
   );
 
-  return {
-    accessToken,
-    refreshToken,
-  };
+  return restUserInfo;
 };
 
 // const refreshToken = async (token: string) => {
